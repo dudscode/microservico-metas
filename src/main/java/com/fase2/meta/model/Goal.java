@@ -8,12 +8,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
-public class Goal {
+public class Goal  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
