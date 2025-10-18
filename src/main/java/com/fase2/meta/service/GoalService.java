@@ -2,6 +2,7 @@ package com.fase2.meta.service;
 
 import com.fase2.meta.dto.StatusDTO;
 import com.fase2.meta.model.Goal;
+import com.fase2.meta.model.QueueSender;
 import com.fase2.meta.model.StatusGoal;
 import com.fase2.meta.repository.GoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class GoalService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QueueSender queueSender;
 
     @CacheEvict(cacheNames = "goals", allEntries = true)
     public Optional<Goal> save(String IdUser, Goal goal) {
@@ -43,6 +47,9 @@ public class GoalService {
         goal.ifPresent(value ->
                 {
                     value.setStatus(statusGoal.status());
+                    if (value.getStatus() == StatusGoal.FINISHED) {
+                        queueSender.send(value.getUser().getEmail());
+                    }
                     goalRepository.save(value);
                 }
 
