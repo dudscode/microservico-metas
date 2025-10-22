@@ -31,7 +31,7 @@ public class UserService {
         if (user == null) {
             return null;
         }
-        return new UserDTO(user.getEmail(), user.getName());
+        return new UserDTO(user.getEmail(), user.getName(), user.getId());
     }
     public List<User> findAll () {
         return userRepository.findAll();
